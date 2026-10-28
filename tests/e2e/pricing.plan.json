@@ -1,0 +1,105 @@
+{
+  "spec": "tests/e2e/pricing.spec.mjs",
+  "notes": [
+    "Waves run in order. Cases inside one wave run in parallel (up to --workers at a time).",
+    "A case may share a wave only if it does not change Shop Settings, and does not change or depend on a rate that another case in the same wave changes.",
+    "Cases that change Shop Settings (setPricing, payment allocation rule) must not overlap with other cases. They run in a \"serial\" wave: one browser session, in spec order, after the parallel waves.",
+    "Cases that pick a specific physical cylinder (POS-P14 filled, POS-P19 empty) must not share a wave with gas or cylinder sales of the same type, or the cylinder can change under them.",
+    "Keep this file in step with testcase.md when cases are added or changed."
+  ],
+  "waves": [
+    {
+      "name": "Setup",
+      "cases": [
+        "S-01",
+        "S-02",
+        "S-03",
+        "S-05"
+      ]
+    },
+    {
+      "name": "Base rates and read-only screens",
+      "cases": [
+        "S-04",
+        "CU-01",
+        "CU-02",
+        "PS-04"
+      ]
+    },
+    {
+      "name": "Default settings: rates screen checks and POS sales",
+      "cases": [
+        "RT-01",
+        "RT-02",
+        "RT-03",
+        "RT-04",
+        "POS-P01",
+        "POS-P02",
+        "POS-P03",
+        "POS-P04",
+        "POS-P05",
+        "POS-P08",
+        "POS-P11",
+        "POS-P13",
+        "POS-P15",
+        "POS-P16",
+        "POS-P17",
+        "POS-P18",
+        "UI-01",
+        "UI-02",
+        "UI-03",
+        "UI-05",
+        "UI-07",
+        "UI-09",
+        "UI-10"
+      ]
+    },
+    {
+      "name": "Rate changes on different items, and cases that pick a physical cylinder",
+      "cases": [
+        "RT-05",
+        "RT-06",
+        "CR-01",
+        "POS-P14",
+        "POS-P19"
+      ]
+    },
+    {
+      "name": "Rate checks after the changes",
+      "cases": [
+        "RT-08",
+        "CR-02",
+        "CR-03",
+        "CR-04",
+        "CR-05",
+        "CR-08"
+      ]
+    },
+    {
+      "name": "Shop Settings changes (each case sets and restores the settings it needs)",
+      "serial": true,
+      "cases": [
+        "RT-07",
+        "PS-01",
+        "PS-02",
+        "PS-03",
+        "POS-P06",
+        "POS-P07",
+        "POS-P09",
+        "POS-P10",
+        "POS-P12",
+        "POS-P20",
+        "UI-04",
+        "UI-06",
+        "UI-08",
+        "CR-06"
+      ]
+    },
+    {
+      "name": "Stop the special rate (last: CR-02..CR-05 need it)",
+      "cases": [
+        "CR-07"
+      ]
+    }
+  ]
+}

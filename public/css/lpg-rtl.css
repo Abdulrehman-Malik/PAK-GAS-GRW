@@ -1,0 +1,62 @@
+/*
+ * Right-to-left layout and Urdu typography for the app shell.
+ * Loaded only when the app language is Urdu (see partials/i18n_head.php), after
+ * Bootstrap's own RTL build, so it only has to flip what our custom CSS hard-codes.
+ */
+
+/* Hide the page for an instant while the translator runs, so English never flashes. */
+html.i18n-pending body{visibility:hidden}
+
+:root{--app-font-family:'DM Sans','Noto Naskh Arabic',system-ui,-apple-system,'Segoe UI',sans-serif}
+html[lang="ur"] body,
+html[lang="ur"] body h1,html[lang="ur"] body h2,html[lang="ur"] body h3,html[lang="ur"] body h4,html[lang="ur"] body h5,html[lang="ur"] body h6,
+html[lang="ur"] .topbar h5,html[lang="ur"] .dashboard-value,html[lang="ur"] .display-6,html[lang="ur"] .gp-btn{font-family:var(--app-font-family)}
+/* Latin text and numbers use DM Sans; Urdu characters fall back to Naskh glyph by glyph. */
+/* Letter-spacing breaks the joined Arabic script. */
+html[lang="ur"] *{letter-spacing:0!important}
+/* Naskh has a small x-height and tall ascenders: a little more size and line height. */
+html[lang="ur"] body{font-size:calc(var(--app-font-size,14px) * 1.1);line-height:1.7}
+html[lang="ur"] .table th,html[lang="ur"] .table td{line-height:1.6}
+html[lang="ur"] .btn,html[lang="ur"] .form-control,html[lang="ur"] .form-select{line-height:1.5}
+
+/* Values that are always left-to-right even on a right-to-left page. */
+html[dir="rtl"] input[type="email"],html[dir="rtl"] input[type="password"],html[dir="rtl"] input[type="tel"],html[dir="rtl"] input[type="url"]{direction:ltr;text-align:left}
+html[dir="rtl"] input[type="number"],html[dir="rtl"] input[type="date"]{direction:ltr;text-align:right}
+
+/* ---- App shell ---------------------------------------------------------- */
+html[dir="rtl"] .sidebar{left:auto;right:0;box-shadow:-4px 0 18px rgba(15,23,42,.08)}
+html[dir="rtl"] .main-content{margin-left:0;margin-right:var(--sidebar-w)}
+html[dir="rtl"] .sidebar > .nav{padding-right:.45rem;padding-left:.45rem}
+html[dir="rtl"] .sidebar .nav-link{border-left:0;border-right:3px solid transparent}
+html[dir="rtl"] .sidebar .nav-link.active{border-right-color:#5eead4}
+html[dir="rtl"] .sidebar .sidebar-group-toggle{border-left:0;border-right:3px solid transparent}
+html[dir="rtl"] .sidebar .sidebar-group-toggle .group-chevron{margin-left:0;margin-right:auto}
+html[dir="rtl"] .sidebar .sidebar-submenu{margin:2px 18px 10px 0;padding:0 10px 0 0;border-left:0;border-right:2px solid #ffffff1f}
+html[dir="rtl"] .sidebar .sidebar-submenu .nav-link{border-left:0;border-right:2px solid rgba(255,255,255,.08);margin-left:0;margin-right:.65rem;border-radius:.4rem 0 0 .4rem}
+html[dir="rtl"] .sidebar .sidebar-submenu .nav-link.active{border-right-color:var(--lpg-accent)}
+html[dir="rtl"] .sidebar-toggle .bi{transform:scaleX(-1)}
+@media(min-width:992px){
+  html[dir="rtl"] body.sidebar-collapsed .main-content{margin-right:var(--sidebar-collapsed-w);margin-left:0}
+  html[dir="rtl"] body.sidebar-collapsed .sidebar .nav-link{border-right-width:0}
+  html[dir="rtl"] body.sidebar-collapsed .sidebar-toggle .bi{transform:scaleX(1)}
+}
+@media(max-width:991.98px){
+  html[dir="rtl"] .sidebar{transform:translateX(100%)}
+  html[dir="rtl"] .sidebar.show{transform:translateX(0)}
+  html[dir="rtl"] .main-content{margin-right:0}
+}
+
+/* Dashboard card arrow, drill-down summaries */
+html[dir="rtl"] .dashboard-card::after{content:"\2196";right:auto;left:18px}
+html[dir="rtl"] .dashboard-hero:after{right:auto;left:-60px}
+html[dir="rtl"] .dashboard-hero-top .dashboard-period-pill{margin-left:0;margin-right:auto}
+html[dir="rtl"] .dashboard-drill-card summary:after{margin-left:0;margin-right:.55rem}
+html[dir="rtl"] .dashboard-flame{right:auto;left:-10px}
+
+/* Cells that hold English data (dates, amounts, codes) read left-to-right but stay right-aligned. */
+html[dir="rtl"] .table td[dir="ltr"]{text-align:right}
+html[dir="rtl"] .table td[dir="ltr"].text-end{text-align:left}
+/* "16 Oct 2026" and similar mixed text in the dashboard pill keep their own order. */
+html[dir="rtl"] .dashboard-period-pill{unicode-bidi:plaintext}
+/* Date and time fields hold fixed-width English text: keep them at the normal size so nothing is clipped. */
+html[lang="ur"] input[type="date"],html[lang="ur"] input[type="datetime-local"],html[lang="ur"] input[type="time"]{font-size:var(--app-font-size,14px)}

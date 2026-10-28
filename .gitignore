@@ -1,0 +1,40 @@
+
+/writable/cache/*
+!/writable/cache/index.html
+/writable/logs/*
+!/writable/logs/index.html
+/writable/session/*
+!/writable/session/index.html
+/writable/uploads/*
+!/writable/uploads/index.html
+/writable/debugbar/*
+!/writable/debugbar/index.html
+php_errors.log
+.phpunit.result.cache
+.phpunit.cache/
+.vscode/
+.idea/
+*.log
+.env
+.env.*
+!.env.example
+.env
+
+# Composer dependencies (installed by `composer install`)
+/vendor/
+
+# Local build output and database backups
+/build/
+/writable/backups/
+/installer/.stage/
+/installer/output/
+/installer/.tools/
+
+# Stray env copy (contains credentials)
+/..env
+
+# Playwright browser tests (npm install / npx playwright test)
+/node_modules/
+/writable/playwright-report/
+/writable/playwright-results/
+/test-results/

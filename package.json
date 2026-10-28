@@ -1,0 +1,15 @@
+{
+  "name": "perfect-lpg-browser-tests",
+  "private": true,
+  "description": "Playwright browser tests for Perfect LPG (tests/e2e). PHP dependencies are managed by Composer.",
+  "scripts": {
+    "test:pricing": "playwright test tests/e2e/pricing.spec.mjs",
+    "test:pricing:watch": "playwright test tests/e2e/pricing.spec.mjs --headed",
+    "test:pricing:ui": "playwright test tests/e2e/pricing.spec.mjs --ui",
+    "test:pricing:waves": "node tests/e2e/run-cases.mjs",
+    "test:pricing:report": "playwright show-report writable/playwright-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}

@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * Urdu interface text: reports screens.
+ * Key = the exact English text (whitespace collapsed); {0}, {1}... = parts that vary at runtime.
+ * Used by UiLanguage (app/Libraries) and public/js/lpg-i18n.js. Do not duplicate keys across files.
+ */
+return [
+    'A cylinder is considered partially used when it contains more than 0 KG but less than its full capacity.' => 'اگر سلنڈر میں 0 KG سے زیادہ مگر مکمل گنجائش سے کم گیس ہو تو اسے جزوی استعمال شدہ سمجھا جاتا ہے۔',
+    'Back' => 'واپس',
+    'Back to Reports' => 'رپورٹس پر واپس',
+    'Company Gas Stock' => 'کمپنی کا گیس اسٹاک',
+    'Company-owned cylinders currently held by customers' => 'کمپنی کی ملکیت والے سلنڈر جو اس وقت کسٹمرز کے پاس ہیں',
+    'Credit / OS' => 'ادھار / OS',
+    'Credit / OS ledger' => 'ادھار / OS لیجر',
+    'Credit Rs. {0}' => 'ادھار Rs. {0}',
+    'Credit Validation' => 'ادھار کی تصدیق',
+    'Current company stock by cylinder type and physical cylinders that are partially used.' => 'سلنڈر کی قسم کے لحاظ سے کمپنی کا موجودہ اسٹاک اور جزوی استعمال شدہ فزیکل سلنڈر۔',
+    'Current OS' => 'موجودہ OS',
+    'Customer Cylinder Custody' => 'کسٹمر کے پاس سلنڈر کی تحویل',
+    'Cylinder Custody & Deposits' => 'سلنڈر کی تحویل اور ڈپازٹ',
+    'Cylinders on Custody' => 'تحویل میں موجود سلنڈرز',
+    'Daily Stock' => 'روزانہ اسٹاک',
+    'Effective Credit Limit' => 'مؤثر ادھار کی حد',
+    'Gas Used KG' => 'استعمال شدہ گیس KG',
+    'Net Amount' => 'خالص رقم',
+    'No credit transactions or receipts found.' => 'کوئی ادھار ٹرانزیکشنز یا رسیدیں نہیں ملیں۔',
+    'No cylinders are currently on customer custody.' => 'اس وقت کوئی سلنڈر کسٹمر کی تحویل میں نہیں ہے۔',
+    'No partially used filled cylinders are currently in company stock.' => 'کمپنی کے اسٹاک میں اس وقت کوئی جزوی استعمال شدہ بھرا ہوا سلنڈر نہیں۔',
+    'No posted sales found for this period.' => 'اس مدت کے لیے کوئی پوسٹ شدہ فروخت نہیں ملی۔',
+    'OS Debit' => 'OS ڈیبٹ',
+    'Partially Used' => 'جزوی استعمال شدہ',
+    'Partially Used Filled Cylinders — Currently in Company Stock' => 'جزوی استعمال شدہ بھرے ہوئے سلنڈرز — فی الحال کمپنی کے اسٹاک میں',
+    'Receipt / Settlement' => 'رسید / تصفیہ',
+    'Received' => 'وصول شدہ',
+    'Refundable liability — not revenue' => 'قابلِ واپسی ذمہ داری — آمدنی نہیں',
+    'Remaining Gas KG' => 'بقیہ گیس KG',
+    'Run Report' => 'رپورٹ چلائیں',
+    'Running OS' => 'جاری OS',
+    'Sales & Daily Reports' => 'فروخت اور روزانہ رپورٹس',
+    'Sales by Payment Mode' => 'ادائیگی کے طریقے کے لحاظ سے فروخت',
+    'Sales Detail' => 'فروخت کی تفصیل',
+    'Stock by Cylinder Type' => 'سلنڈر کی قسم کے لحاظ سے اسٹاک',
+    'Today' => 'آج',
+    'Today received: Rs. {0}' => 'آج وصول: Rs. {0}',
+    'Today refunded: Rs. {0}' => 'آج ریفنڈ: Rs. {0}',
+    'Used %' => 'استعمال %',
+    '{0} posted transactions' => '{0} پوسٹ شدہ ٹرانزیکشنز',
+    '{0} to {1}' => '{0} تا {1}',
+];
