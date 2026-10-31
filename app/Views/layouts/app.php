@@ -98,6 +98,7 @@ $groups=[
             ['permission'=>'INVENTORY_MANAGE','url'=>'inventory','label'=>'Inventory','icon'=>'bi-boxes'],
             ['permission'=>'INVENTORY_MANAGE','url'=>'inventory/opening','label'=>'Opening Inventory','icon'=>'bi-archive'],
             ['permission'=>'INVENTORY_MANAGE','url'=>'inventory/old-issued','label'=>'Old Issued Cylinders','icon'=>'bi-journal-arrow-up'],
+            ['permission'=>'INVENTORY_MANAGE','url'=>'inventory/fill-empty','label'=>'Fill / Empty Cylinders','icon'=>'bi-fuel-pump'],
             ['permission'=>'INVENTORY_MANAGE','url'=>'cylinder-types','label'=>'Cylinder Types','icon'=>'bi-box'],
             ['permission'=>'INVENTORY_MANAGE','url'=>'inventory/adjustments','label'=>'Stock Adjustment & History','icon'=>'bi-sliders2-vertical'],
             ['permission'=>'INVENTORY_CONTROLS_MANAGE','url'=>'inventory/controls','label'=>'Inventory Controls','icon'=>'bi-sliders'],
