@@ -17,6 +17,7 @@ class TransactionalDataRefreshService
 
         $tables = [
             'audit_logs',
+            'old_issued_cylinders',
             'customer_security_deposits',
             'cylinder_custody',
             'sale_payments',

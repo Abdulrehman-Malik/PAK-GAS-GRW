@@ -202,3 +202,8 @@ Do not expose the production application/database. Use a dedicated test database
 - `diagnostics.enabled = true` in `.env` logs requests, responses, SQL queries, errors and browser actions to `writable/logs/diagnostics-YYYY-MM-DD.log` (`App\Libraries\Diagnostics`), for client PCs that cannot be reached. Off by default; takes effect on the next request; files are deleted after 7 days.
 - Administrators download the log from `/diagnostics/download` (`?date=YYYY-MM-DD` for an older day). Lines of one request share a `rid`.
 - Screens add their own events with `window.lpgDiag?.(name, data)`. Secrets are masked by key name and in SQL; keep that true when logging anything new.
+
+## Old Issued Cylinders
+- Inventory > Old Issued Cylinders (`OldIssuedCylinders`, `OldIssuedCylinderService`, migration 038) records cylinders customers held before the system was used, one grid row per issue.
+- An entry creates custody cylinders (`source_type = old_issue`, treated as full, rate per KG = rate per cylinder / capacity) and adds its outstanding amount to `customers.opening_balance`. It creates no sale, cash, deposit or inventory movement. The cylinders join shop stock through the normal Cylinder Return.
+- Void needs a reason and is blocked once a cylinder was returned or used in a sale. Migration comments must not contain semicolons or apostrophes: the runner splits on them.
