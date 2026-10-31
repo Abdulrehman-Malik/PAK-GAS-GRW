@@ -336,9 +336,10 @@ FLUSH PRIVILEGES;
         base_url         = $baseUrl
         install_dir      = $InstallDir
         app_dir          = $AppDir
-        backup_dir       = $BackupDir
-        mysql            = $MySql
-        mysqldump        = (Join-Path $MySqlDir 'bin\mysqldump.exe')
+        # Forward slashes: CodeIgniter keeps the quotes around a .env value with single backslashes.
+        backup_dir       = (Fwd $BackupDir)
+        mysql            = (Fwd $MySql)
+        mysqldump        = (Fwd (Join-Path $MySqlDir 'bin\mysqldump.exe'))
         company          = ($CompanyName.Trim() -replace '[''"]', '')
         app_version      = $AppVersion
         db_host          = '127.0.0.1'

@@ -197,3 +197,8 @@ Do not expose the production application/database. Use a dedicated test database
 - Flow is feature -> stage -> main. Never push directly to `main` or `stage`.
 - Branch from `stage` (`feature/`, `fix/`, `chore/`), push, open a PR into `stage`, merge after CI passes. Promote with a PR from `stage` into `main`.
 - Run `git config core.hooksPath .githooks` once per clone to enable the pre-push guard.
+
+## Diagnostics log
+- `diagnostics.enabled = true` in `.env` logs requests, responses, SQL queries, errors and browser actions to `writable/logs/diagnostics-YYYY-MM-DD.log` (`App\Libraries\Diagnostics`), for client PCs that cannot be reached. Off by default; takes effect on the next request; files are deleted after 7 days.
+- Administrators download the log from `/diagnostics/download` (`?date=YYYY-MM-DD` for an older day). Lines of one request share a `rid`.
+- Screens add their own events with `window.lpgDiag?.(name, data)`. Secrets are masked by key name and in SQL; keep that true when logging anything new.

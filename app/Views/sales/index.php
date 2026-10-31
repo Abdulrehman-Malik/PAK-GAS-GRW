@@ -501,6 +501,7 @@ $initialTransactionType = in_array((string)$defaultTransactionType, $posVisibleT
 const types=<?=json_encode(array_values($types),JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP)?>;
 // Retail and Wholesale rates per cylinder type, resolved by the server for this shop and transaction time.
 let priceBooks=<?=json_encode($priceBooks,JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP)?>;
+window.lpgDiag?.('pos.open',{server_time:<?=json_encode(date('Y-m-d H:i:s'))?>,books:priceBooks});
 const customerPriceLists=<?=json_encode($customerPriceLists)?>,walkinPriceList=<?=json_encode($walkinPriceList)?>;
 const rateChangeMode=<?=json_encode((string)($shopSettings['pos_rate_change_mode']??'reason_required'))?>;
 const filledStock=<?=json_encode($filledStock)?>,filledUnits=<?=json_encode($filledUnits)?>,emptyStock=<?=json_encode($emptyStock)?>,gasStock=<?=json_encode($gasStock)?>;
@@ -533,6 +534,7 @@ function gasLineDefaultRate(tr){
 // Rate inputs show the price-list rate; the server receives a rate only when the cashier changed it.
 function applyDefaultRate(input,value,force=false){
  if(!input)return;
+ window.lpgDiag?.('pos.line_rate',{type:transactionType(),list:priceList(),rate:value,force,edited:input.dataset.edited==='1',time:document.querySelector('input[name="transaction_at"]')?.value});
  if(force)delete input.dataset.edited;
  input.dataset.defaultRate=value==null?'':String(value);
  if(input.dataset.edited!=='1')input.value=value==null?'':Number(value).toFixed(2);
@@ -572,6 +574,7 @@ async function refreshPriceBooks(){
   const at=document.querySelector('input[name="transaction_at"]')?.value||'';
   const customerId=selectedCustomerId()||'';
   const response=await fetch(<?=json_encode(site_url('sales/rates'))?>+'?at='+encodeURIComponent(at)+'&customer_id='+encodeURIComponent(customerId),{headers:{'Accept':'application/json'},credentials:'same-origin',cache:'no-store'});
+  window.lpgDiag?.('pos.rates_reply',{at,customer_id:customerId,status:response.status,redirected:response.redirected,current:seq===rateRefreshSeq});
   if(!response.ok||seq!==rateRefreshSeq)return;
   const data=await response.json();
   if(!data||!data.books||seq!==rateRefreshSeq)return;
@@ -1069,6 +1072,7 @@ function addIssueSelection(){
  if(!typeId||!ids.length){alert('Select a cylinder type and at least one physical cylinder.');return;}
  const combo=typeId+'|'+status;if(issueLines.some(x=>x.combo===combo)){alert('This Cylinder Type + Filled/Empty combination is already in the issue transaction. Remove it before adding another line.');return;}
  const units=ids.map(id=>availableCustodyUnits.find(u=>Number(u.id)===id)).filter(Boolean),def=issueRateDefaults(typeId),type=cylinderTypeById(typeId);
+ window.lpgDiag?.('pos.issue_line',{type_id:typeId,status,unit_ids:ids,list:priceList(),rate:def.gas,time:document.querySelector('input[name="transaction_at"]')?.value,book:(priceBooks[priceList()]||priceBooks.retail||{})[String(typeId)]??null});
  const gas=units.reduce((s,u)=>s+Number(u.gas_weight_kg||0),0);
  issueLines.push({combo,type_id:typeId,type_label:(type?.code||'')+' — '+(type?.name||''),status,selected_cylinder_unit_ids:ids,gas_weight_kg:gas,gas_rate:status==='filled'?def.gas:0,default_gas_rate:status==='filled'?def.gas:0,gas_rate_edited:false});
  renderIssueLines();recalc();bootstrap.Modal.getInstance(document.getElementById('issuePickerModal')).hide();

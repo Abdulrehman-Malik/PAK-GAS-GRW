@@ -58,6 +58,7 @@ body{background:var(--lpg-page);color:var(--lpg-text);-webkit-font-smoothing:ant
 </style>
 <link rel="stylesheet" href="<?= base_url('css/lpg-theme.css') ?>?v=<?= (int) @filemtime(FCPATH . 'css/lpg-theme.css') ?>">
 <?= view('partials/i18n_head', ['uiLang' => $uiLang]) ?>
+<?php if (\App\Libraries\Diagnostics::enabled()): ?><script>window.lpgDiagConfig=<?= json_encode(['url' => site_url('diagnostics/client'), 'rid' => \App\Libraries\Diagnostics::requestId()], JSON_HEX_TAG | JSON_UNESCAPED_SLASHES) ?>;</script><script src="<?= base_url('js/lpg-diagnostics.js') ?>?v=<?= (int) @filemtime(FCPATH . 'js/lpg-diagnostics.js') ?>"></script><?php endif; ?>
 <script src="<?= base_url('js/lpg-busy.js') ?>?v=<?= (int) @filemtime(FCPATH . 'js/lpg-busy.js') ?>"></script><?= $this->renderSection('styles') ?><script>window.fmtMoney=(v,d=2)=>Number(v||0).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});window.parseMoney=v=>Number(String(v??'').replace(/,/g,''))||0;</script></head>
 <body class="theme-<?= esc($themeMode) ?> font-<?= esc($fontFamilyKey) ?>">
 <nav class="sidebar d-flex flex-column" id="sidebar"><div class="brand d-flex align-items-center"><i class="bi bi-fire me-2 flex-shrink-0"></i><div class="brand-text"><div class="fw-bold text-white"><?= esc($branchName) ?></div><div class="ls" style="font-size:.7rem;">LPG POS & ERP</div></div></div>
