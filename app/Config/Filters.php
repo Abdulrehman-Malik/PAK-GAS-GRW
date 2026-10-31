@@ -13,6 +13,7 @@ use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
 use App\Controllers\Filters\AuthFilter;
+use App\Controllers\Filters\DiagnosticsFilter;
 
 class Filters extends BaseFilters
 {
@@ -36,6 +37,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'auth'          => AuthFilter::class,
+        'diagnostics'   => DiagnosticsFilter::class,
     ];
 
     /**
@@ -72,9 +74,12 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            'csrf' => ['except' => ENVIRONMENT === 'testing' ? ['migrations/run'] : []],
+            'diagnostics',
+            // Browser diagnostics events carry no form; the route is signed-in only and only writes to the log.
+            'csrf' => ['except' => ENVIRONMENT === 'testing' ? ['migrations/run', 'diagnostics/client'] : ['diagnostics/client']],
         ],
         'after' => [
+            'diagnostics',
             // 'honeypot',
             // 'secureheaders',
         ],

@@ -131,3 +131,14 @@ database.default.port = 3306
 # and a verified safety backup before the database is dropped.
 # Enable only during a controlled installation window, verify login afterward, then set false.
 FRESH_DATABASE_SETUP = false
+
+#--------------------------------------------------------------------
+# DIAGNOSTICS LOG
+#--------------------------------------------------------------------
+
+# true: writes requests, responses, SQL queries, errors and the user's actions in the
+# browser to writable/logs/diagnostics-YYYY-MM-DD.log, for finding a problem on a PC
+# that cannot be reached. Takes effect on the next request. Secrets are masked, but the
+# file holds customer and sales data. Administrators download it from /diagnostics/download.
+# Turn it off again afterwards. Logs are deleted after 7 days.
+# diagnostics.enabled = false

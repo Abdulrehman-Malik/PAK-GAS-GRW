@@ -77,6 +77,10 @@ class Logger extends BaseConfig
      * @var array<class-string<HandlerInterface>, array<string, int|list<string>|string>>
      */
     public array $handlers = [
+        \App\Libraries\DiagnosticsLogHandler::class => [
+            'handles' => ['critical', 'alert', 'emergency', 'debug', 'error', 'info', 'notice', 'warning'],
+        ],
+
         /*
          * --------------------------------------------------------------------
          * File Handler
