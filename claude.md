@@ -207,3 +207,8 @@ Do not expose the production application/database. Use a dedicated test database
 - Inventory > Old Issued Cylinders (`OldIssuedCylinders`, `OldIssuedCylinderService`, migration 038) records cylinders customers held before the system was used, one grid row per issue.
 - An entry creates custody cylinders (`source_type = old_issue`, treated as full, rate per KG = rate per cylinder / capacity) and adds its outstanding amount to `customers.opening_balance`. It creates no sale, cash, deposit or inventory movement. The cylinders join shop stock through the normal Cylinder Return.
 - Void needs a reason and is blocked once a cylinder was returned or used in a sale. Migration comments must not contain semicolons or apostrophes: the runner splits on them.
+
+## Fill / Empty Cylinders
+- Inventory > Fill / Empty Cylinders (`CylinderFills`, `CylinderFillService`, migration 039) converts shop cylinders of one type between empty and full, with history in `cylinder_fills`.
+- Empty to full fills to capacity. Full to empty needs a reason, removes the gas in the cylinder and takes the cylinders with the most gas first.
+- It only changes stock (`source_type = cylinder_fill` movements for the cylinders and gas). No purchase, sale, cost or cash is recorded.

@@ -47,6 +47,7 @@ The **NNN** prefix is the deployment sequence. The date remains in the filename 
 | 036 | `036_20261021_customer_special_rates.sql` | Customer special rates (`customer_rates`) and customer columns on the rate change log |
 | 037 | `037_20261026_deposit_actual_received.sql` | Security deposit amounts on invoices and custody follow the deposit actually received (data fix, idempotent) |
 | 038 | `038_20261031_old_issued_cylinders.sql` | Old Issued Cylinders: `old_issued_cylinders` table and the `voided` status on custody and physical cylinders (idempotent) |
+| 039 | `039_20261031_cylinder_fills.sql` | Fill / Empty Cylinders: `cylinder_fills` history table (idempotent) |
 
 ## Deployment rules
 
@@ -57,7 +58,7 @@ Execution results are recorded in `lpg_migration_history`, including status, che
 
 1. Run `database/schema.sql` only for a fresh database.
 2. For an existing database, run only the migration scripts that have not already been applied.
-3. Always execute pending migrations in ascending sequence order: **001 → 002 → ... → 029 → 030 → 031 → 032 → 033 → 034 → 035 → 036 → 037 → 038**.
+3. Always execute pending migrations in ascending sequence order: **001 → 002 → ... → 029 → 030 → 031 → 032 → 033 → 034 → 035 → 036 → 037 → 038 → 039**.
 4. Migration **011** is not a normal upgrade migration. It is a controlled, destructive refresh intended for disposable staging/test databases. It clears transactional records plus customers, suppliers, cylinder types, rate cards, and rate-change history. Users, roles, permissions, locations, shop settings, cash registers, inventory policies, and other application configuration remain. Whenever a later migration introduces a new transactional table, update the controlled refresh service/script so that table is reset too.
 5. Do not automatically run migration 011 during production deployment.
 6. A fresh install loads the current `schema.sql` and then runs the migrations. Any migration that changes something a later migration redefines needs an "already applied" check in `MigrationRunnerService::migrationAlreadyApplied()`, so it is skipped on a fresh install. Example: 032 narrows `rate_cards.rate_type`, which 035 later changes. Without such a check, an old migration re-runs on the new schema and fails or undoes newer changes. Its check must also accept the newer state. Never edit an applied migration file to fix this: the runner blocks login when an applied file's checksum changes.
