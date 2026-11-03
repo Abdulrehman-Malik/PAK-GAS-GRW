@@ -16,6 +16,7 @@ foreach ($name in ($Product['app']['short_name'] + '-Apache'), ($Product['app'][
     }
 }
 Unregister-ScheduledTask -TaskName ($AppName + ' Daily Backup') -Confirm:$false -ErrorAction SilentlyContinue
+Unregister-ScheduledTask -TaskName ($AppName + ' Hourly Task') -Confirm:$false -ErrorAction SilentlyContinue
 Get-NetFirewallRule -Group $AppName -ErrorAction SilentlyContinue | Remove-NetFirewallRule
 Remove-Item (Join-Path $env:PUBLIC ('Desktop\' + $AppName + '.url')) -ErrorAction SilentlyContinue
 Remove-Item (Join-Path $env:ProgramData ('Microsoft\Windows\Start Menu\Programs\' + $AppName + '.url')) -ErrorAction SilentlyContinue

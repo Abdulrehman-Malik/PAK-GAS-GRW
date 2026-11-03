@@ -11,9 +11,10 @@ class MigrationRunnerService
     protected string $historyTable = 'lpg_migration_history';
     protected string $lockKey = 'lpg_migration_runner';
 
-    public function __construct()
+    /** @param mixed $connection Another database to migrate (the online sync target). Defaults to this install's. */
+    public function __construct($connection = null)
     {
-        $this->db = Database::connect();
+        $this->db = $connection ?? Database::connect();
     }
 
     protected function ensureHistoryTable(): void
@@ -143,6 +144,7 @@ class MigrationRunnerService
             // from the current schema.sql must not run 032, which would narrow rate_type back to the old values.
             32 => "SELECT (EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='supplier_plants') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='purchases' AND COLUMN_NAME='plant_id') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='cylinder_units' AND COLUMN_NAME='filled_purchase_id') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='customers' AND COLUMN_NAME='customer_type') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='purchase_items' AND COLUMN_NAME='line_type' AND COLUMN_TYPE LIKE '%refill_empty%') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='rate_cards' AND COLUMN_NAME='rate_type' AND (COLUMN_TYPE LIKE '%wholesale_cylinder%' OR COLUMN_TYPE LIKE '%gas_per_cylinder%'))) ok",
             35 => "SELECT (EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='rate_cards' AND COLUMN_NAME='price_list') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='rate_cards' AND COLUMN_NAME='rate_type' AND COLUMN_TYPE NOT LIKE '%wholesale_cylinder%') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='rate_change_log' AND COLUMN_NAME='price_list')) ok",
+            40 => "SELECT (EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='online_sync_settings') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='online_sync_log')) ok",
             39 => "SELECT COUNT(*) ok FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='cylinder_fills'",
             38 => "SELECT (EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='old_issued_cylinders') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='cylinder_custody' AND COLUMN_NAME='status' AND COLUMN_TYPE LIKE '%voided%') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='cylinder_units' AND COLUMN_NAME='status' AND COLUMN_TYPE LIKE '%voided%')) ok",
             36 => "SELECT (EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='customer_rates') AND EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='rate_change_log' AND COLUMN_NAME='customer_rate_id')) ok",

@@ -138,6 +138,7 @@ $groups=[
             ['permission'=>'USER_MANAGE','url'=>'users','label'=>'Users / Roles','icon'=>'bi-person-gear'],
             ['permission'=>['USER_MANAGE','INVENTORY_MANAGE'],'url'=>'shop-settings','label'=>'Shop Settings','icon'=>'bi-gear-wide-connected'],
             ['permission'=>'BACKUP_MANAGE','url'=>'database-backup','label'=>'Database Backup & Restore','icon'=>'bi-database-gear'],
+            ['permission'=>'BACKUP_MANAGE','url'=>'online-sync','label'=>'Online Database Sync','icon'=>'bi-cloud-arrow-up'],
         ],
     ],
 ];
