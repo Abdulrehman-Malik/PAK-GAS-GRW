@@ -29,6 +29,7 @@ $ShortName = $Product['app']['short_name']
 $ApacheService = $ShortName + '-Apache'
 $MySqlService = $ShortName + '-MySQL'
 $BackupTask = $AppName + ' Daily Backup'
+$HourlyTask = $AppName + ' Hourly Task'
 $FirewallGroup = $AppName
 $DbName = $Product['database']['name']
 $DbUser = $Product['database']['user']
@@ -447,6 +448,14 @@ LogLevel warn
     $taskSettings = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 2)
     $principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest
     Register-ScheduledTask -TaskName $BackupTask -Action $action -Trigger $trigger -Settings $taskSettings -Principal $principal -Force | Out-Null
+
+    if ($Product['tasks'] -and $Product['tasks']['hourly']) {
+        Step 'Scheduling the hourly task'
+        $hourlyAction = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument ('-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $InstallDir 'installer\hourly.ps1') + '" -InstallDir "' + $InstallDir + '"')
+        $hourlyTrigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(5) -RepetitionInterval (New-TimeSpan -Hours 1)
+        $hourlySettings = New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 55)
+        Register-ScheduledTask -TaskName $HourlyTask -Action $hourlyAction -Trigger $hourlyTrigger -Settings $hourlySettings -Principal $principal -Force | Out-Null
+    }
 
     Get-NetFirewallRule -Group $FirewallGroup -ErrorAction SilentlyContinue | Remove-NetFirewallRule
     if ($OpenFirewall) {

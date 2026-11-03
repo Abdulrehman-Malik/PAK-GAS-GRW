@@ -67,6 +67,7 @@ Source: "app.ini"; DestDir: "{app}\installer"; Flags: ignoreversion
 Source: "scripts\common.ps1"; DestDir: "{app}\installer"; Flags: ignoreversion
 Source: "scripts\configure.ps1"; DestDir: "{app}\installer"; Flags: ignoreversion
 Source: "scripts\backup.ps1"; DestDir: "{app}\installer"; Flags: ignoreversion
+Source: "scripts\hourly.ps1"; DestDir: "{app}\installer"; Flags: ignoreversion
 Source: "scripts\uninstall.ps1"; DestDir: "{app}\installer"; Flags: ignoreversion
 Source: "{#Stage}\app.ico"; DestDir: "{app}\installer"; Flags: ignoreversion
 Source: "scripts\resolve.ps1"; Flags: dontcopy

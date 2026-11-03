@@ -212,3 +212,8 @@ Do not expose the production application/database. Use a dedicated test database
 - Inventory > Fill / Empty Cylinders (`CylinderFills`, `CylinderFillService`, migration 039) converts shop cylinders of one type between empty and full, with history in `cylinder_fills`.
 - Empty to full fills to capacity. Full to empty needs a reason, removes the gas in the cylinder and takes the cylinders with the most gas first.
 - It only changes stock (`source_type = cylinder_fill` movements for the cylinders and gas). No purchase, sale, cost or cash is recorded.
+
+## Online Database Sync
+- Configuration > Online Database Sync (`OnlineSync`, `OnlineSyncService`, `php spark sync:online`, migration 040) copies this database one way to one online MySQL database, one PC per online database. Rows are replaced in one transaction, and changes made online are overwritten.
+- Each run connects, refuses this PC's own database or one it does not own (`lpg_sync_target` marker, unless Replace is confirmed), runs missing migrations online through `MigrationRunnerService`, compares columns, then copies. Rows of `online_sync_settings`, `online_sync_log` and `lpg_migration_history` are never copied.
+- The password is encrypted with `encryption.key`. The installer's hourly scheduled task runs `installer/scripts/hourly.ps1`, which runs the `[tasks] hourly` command in `installer/app.ini`.
